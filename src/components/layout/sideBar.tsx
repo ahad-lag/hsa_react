@@ -74,9 +74,6 @@ const SideBar : React.FC<Props> = ({sideBar,setSideBar}) => {
   const location = useLocation();
   const pathName = location.pathname;
 
-  console.log('/insert' , pathName , pathName.search('/'));
-  
-
   return (
     <div className={`${sideBar ? '' : 'hidden'} fixed w-64 lg:flex h-full`}>
       <div className="h-full flex flex-col w-64 lg:inset-y-0 lg:border-r border-gray-200 pt-5 bg-gray-50 shadow">

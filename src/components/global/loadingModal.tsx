@@ -50,3 +50,5 @@ const LoadingModal : React.FC<Props> = ({ showLoading , setShowLoading }) => {
         </Transition.Root>
     )
 }
+
+export default LoadingModal;
