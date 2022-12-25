@@ -1,5 +1,5 @@
 import { useState } from "react";
-import LoadingModal from "../../components/global/loadingModal";
+import LoadingModal from "../../components/global/loading";
 
 
 const UserIndex = () => {
@@ -79,7 +79,7 @@ const UserIndex = () => {
                     {/* <div className="mt-6">
                         { meta.from && <Pagination meta={meta} pageination={pageHandler} />}
                     </div> */}
-                    { showLoading && <LoadingModal showLoading={showLoading} setShowLoading={setShowLoading} />}
+                    { showLoading && <LoadingModal showLoading={showLoading} />}
 
                 </table>
             </div>

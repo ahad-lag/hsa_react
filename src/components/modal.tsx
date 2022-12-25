@@ -2,14 +2,15 @@ import React,{ Fragment } from "react";
 import { Dialog, Transition } from '@headlessui/react'
 
 interface Props {
-    showLoading : any,
-    setShowLoading : any
-}
+    show : any,
+    setShow? : any,
+    children : any
+  }
 
-const LoadingModal : React.FC<Props> = ({ showLoading , setShowLoading }) => {
-    return(
-        <Transition.Root show={showLoading} as={Fragment}>
-            <Dialog as="div" className="fixed z-10 inset-0 overflow-y-auto" onClose={setShowLoading}>
+const Modal : React.FC<Props> = ({ show , setShow = ()=> null , children }) => {
+    return (
+        <Transition.Root show={show} as={Fragment}>
+            <Dialog as="div" className="fixed z-10 inset-0 overflow-y-auto" onClose={setShow}>
                 <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                     <Transition.Child
                         as={Fragment}
@@ -38,10 +39,7 @@ const LoadingModal : React.FC<Props> = ({ showLoading , setShowLoading }) => {
                     >
                         <div className="relative inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg">
                             <div className="flex bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 justify-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" className="animate-spin h-6 w-6 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-                                </svg>
-                                درحال بارگزاری
+                                { children }
                             </div>
                         </div>
                     </Transition.Child>
@@ -51,4 +49,4 @@ const LoadingModal : React.FC<Props> = ({ showLoading , setShowLoading }) => {
     )
 }
 
-export default LoadingModal;
+export default Modal;
