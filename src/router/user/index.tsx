@@ -1,10 +1,13 @@
 import { useState } from "react";
 import LoadingModal from "../../components/global/loading";
+import ModalForm from "../../components/modalForm";
+import InsertUserForm from "../../froms/user/insertUserForm";
 
 
 const UserIndex = () => {
     
     const [ showLoading , setShowLoading ] = useState(false);
+    const [ showInserUserModal , setInserUserModal ] = useState(false);
 
     return (
         <>
@@ -24,7 +27,8 @@ const UserIndex = () => {
                         جستجو
                     </button>
                     <button
-                        type="submit"
+                        type="button"
+                        onClick={() => setInserUserModal(true)}
                         className="inline-flex items-center justify-center rounded-md border border-transparent bg-teal-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 sm:w-auto cursor-pointer sm:mr-2"
                     >
                         عضو جدید
@@ -86,6 +90,7 @@ const UserIndex = () => {
                         { meta.from && <Pagination meta={meta} pageination={pageHandler} />}
                     </div> */}
                     { showLoading && <LoadingModal showLoading={showLoading} />}
+                    { showInserUserModal && <ModalForm subject="کاربر جدید" show={showInserUserModal} setShow={setInserUserModal} ><InsertUserForm /></ModalForm>}
 
                 </table>
             </div>

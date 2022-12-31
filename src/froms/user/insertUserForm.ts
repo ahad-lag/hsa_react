@@ -17,10 +17,9 @@ const InsertUserForm = withFormik<InsertUserFormProps, InsertUserFormValuesProps
             phone : '',
             email : '',
             password : '',
-            confirm_password : '',
             description : '',
-            is_admin : 0,
-            status : 1
+            is_admin : '0',
+            status : '1'
         }
     },
     handleSubmit: async (values) => {

@@ -3,14 +3,13 @@ import { Dialog, Transition } from '@headlessui/react'
 
 interface Props {
     show : any,
-    setShow? : any,
     children : any
   }
 
-const Modal : React.FC<Props> = ({ show , setShow = ()=> null , children }) => {
+const Modal : React.FC<Props> = ({ show , children }) => {
     return (
         <Transition.Root show={show} as={Fragment}>
-            <Dialog as="div" className="fixed z-10 inset-0 overflow-y-auto" onClose={setShow}>
+            <Dialog as="div" className="fixed z-10 inset-0 overflow-y-auto" onClose={()=> null}>
                 <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
                     <Transition.Child
                         as={Fragment}
@@ -37,8 +36,8 @@ const Modal : React.FC<Props> = ({ show , setShow = ()=> null , children }) => {
                         leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                         leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                     >
-                        <div className="relative inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg max-w-">
-                            <div className="flex bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4 justify-center">
+                        <div className="relative inline-block align-bottom bg-white rounded-lg text-right overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle max-w-2xl">
+                            <div className="flex bg-white justify-center">
                                 { children }
                             </div>
                         </div>

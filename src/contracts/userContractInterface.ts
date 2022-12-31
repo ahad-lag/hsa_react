@@ -2,13 +2,12 @@
 export interface InsertUserFormValuesProps {
     first_name : string,
     last_name : string,
-    gender : 'male' | 'famale',
+    gender : string,
     username : string,
     phone : string,
     email : string,
     password : string,
-    confirm_password : string,
     description : string,
-    is_admin : 0 | 1,
-    status : 0 | 1
+    is_admin : string,
+    status : string
 }

@@ -1,4 +1,5 @@
 import { Routes , Route } from 'react-router-dom';
+import * as yup from 'yup';
 import MasterPage from './components/masterPage';
 import InsertUserForm from './froms/user/insertUserForm';
 import NotFound from './router/notFound';
