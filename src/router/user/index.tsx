@@ -1,6 +1,8 @@
-import { useState } from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
 import LoadingModal from "../../components/global/loading";
 import ModalForm from "../../components/modalForm";
+import UserList from "../../components/user/userList";
 import InsertUserForm from "../../froms/user/insertUserForm";
 
 
@@ -8,6 +10,19 @@ const UserIndex = () => {
     
     const [ showLoading , setShowLoading ] = useState(false);
     const [ showInserUserModal , setInserUserModal ] = useState(false);
+    const [userList, setUserList] = useState([]);
+
+    useEffect(() => {
+        fetchAllUserHandler()
+    },[]);
+
+    // fetch data from api
+    let fetchAllUserHandler = async () => {
+        setShowLoading(true)
+        let apiResult = await axios.get('http://127.0.0.1:8000/api/user/collection');
+        setUserList(apiResult?.data?.data)
+        setShowLoading(false)
+    };
 
     return (
         <>
@@ -35,65 +50,14 @@ const UserIndex = () => {
                     </button>
                 </div>
             </form>
-            <div className="-mx-4 mt-4 overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:-mx-6 md:mx-0 md:rounded-lg">
-                <table className="min-w-full divide-y divide-gray-300">
-                    <thead className="bg-gray-50">
-                        <tr>
-                            <th scope="col" className="py-3.5 pr-4 pl-3 text-right text-sm font-semibold text-gray-900 sm:pr-6">
-                            ردیف
-                            </th>
-                            <th
-                            scope="col"
-                            className="hidden px-3 py-3.5 text-right text-sm font-semibold text-gray-900 lg:table-cell"
-                            >
-                            نام شرکت
-                            </th>
-                            <th
-                            scope="col"
-                            className="hidden px-3 py-3.5 text-right text-sm font-semibold text-gray-900 sm:table-cell"
-                            >
-                            کد/شناسه ملی
-                            </th>
-                            <th scope="col" className="px-3 py-3.5 text-right text-sm font-semibold text-gray-900">
-                            رابط
-                            </th>
-                            <th scope="col" className="relative py-3.5 pr-3 pl-4 sm:pl-6">
-                            <span className="sr-only">Edit</span>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody className="divide-y divide-gray-200 bg-white">
-                        
-                        <tr key={1}>
-                            <td className="w-full max-w-0 py-4 pr-4 pl-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pr-6">
-                                1
-                                <dl className="font-normal lg:hidden">
-                                <dt className="sr-only">نام شرکت</dt>
-                                <dd className="mt-1 truncate text-gray-700">ahad</dd>
-                                <dt className="sr-only sm:hidden">0018663400</dt>
-                                <dd className="mt-1 truncate text-gray-500 sm:hidden">0018663400</dd>
-                                </dl>
-                            </td>
-                            <td className="hidden px-3 py-4 text-sm text-gray-500 lg:table-cell">ahad</td>
-                            <td className="hidden px-3 py-4 text-sm text-gray-500 sm:table-cell">0018663400</td>
-                            <td className="px-3 py-4 text-sm text-gray-500">ahad lag</td>
-                            <td className="py-4 pr-3 pl-4 text-center text-sm font-medium sm:pl-6">
-                                <a href="#" className="text-indigo-600 hover:text-indigo-900">
-                                ویرایش<span className="sr-only">, ahad</span>
-                                </a>
-                            </td>
-                        </tr>
+            
+            <UserList userList={userList} />
 
-                    </tbody>
-
-                    {/* <div className="mt-6">
-                        { meta.from && <Pagination meta={meta} pageination={pageHandler} />}
-                    </div> */}
-                    { showLoading && <LoadingModal showLoading={showLoading} />}
-                    { showInserUserModal && <ModalForm subject="کاربر جدید" show={showInserUserModal} setShow={setInserUserModal} ><InsertUserForm /></ModalForm>}
-
-                </table>
-            </div>
+            {/* <div className="mt-6">
+                { meta.from && <Pagination meta={meta} pageination={pageHandler} />}
+            </div> */}
+            { showLoading && <LoadingModal showLoading={showLoading} />}
+            { showInserUserModal && <ModalForm subject="کاربر جدید" show={showInserUserModal} setShow={setInserUserModal} ><InsertUserForm /></ModalForm>}
         </>
     )
 }
