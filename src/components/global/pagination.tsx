@@ -29,31 +29,31 @@ const Pagination : React.FC<Props> = ( { meta , pageination } ) => {
       </div>
       <div className="hidden md:-mt-px md:flex">
         {
-          // (meta.links).map((link) => {
-          //   if(!(link.label == "&laquo; Previous" || link.label == "Next &raquo;")){
-          //     if(link.label == "..."){
-          //       return (
-          //         <a
-          //           data-url={link.url}
-          //           onClick={pageination}
-          //           className="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 border-t-2 pt-4 px-4 inline-flex items-center text-sm font-medium cursor-not-allowed"
-          //         >
-          //           {link.label}
-          //         </a>
-          //       )
-          //     }else{
-          //       return (
-          //         <a
-          //           data-url={link.url}
-          //           onClick={link.active ? null : pageination}
-          //           className={`border-transparent border-t-2 pt-4 px-4 inline-flex items-center text-sm font-medium ${link.active ? 'border-indigo-500 text-indigo-600 cursor-not-allowed' : 'text-gray-500 hover:text-gray-700 hover:border-gray-300 cursor-pointer'}`}
-          //         >
-          //           {link.label}
-          //         </a>
-          //       )
-          //     }
-          //   }
-          // })
+          (meta.links).map((link : any) => {
+            if(!(link.label == "&laquo; Previous" || link.label == "Next &raquo;")){
+              if(link.label == "..."){
+                return (
+                  <a
+                    data-url={link.url}
+                    onClick={pageination}
+                    className="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 border-t-2 pt-4 px-4 inline-flex items-center text-sm font-medium cursor-not-allowed"
+                  >
+                    {link.label}
+                  </a>
+                )
+              }else{
+                return (
+                  <a
+                    data-url={link.url}
+                    onClick={link.active ? null : pageination}
+                    className={`border-transparent border-t-2 pt-4 px-4 inline-flex items-center text-sm font-medium ${link.active ? 'border-indigo-500 text-indigo-600 cursor-not-allowed' : 'text-gray-500 hover:text-gray-700 hover:border-gray-300 cursor-pointer'}`}
+                  >
+                    {link.label}
+                  </a>
+                )
+              }
+            }
+          })
         }   
       </div>
       <div className="-mt-px w-0 flex-1 flex justify-end">

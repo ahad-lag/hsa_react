@@ -62,16 +62,3 @@ const InnerInsertUserForm = (props: FormikProps<InsertUserFormValuesProps>) => {
 }
 
 export default InnerInsertUserForm;
-
-    // first_name : '',
-    // last_name : '',
-    // gender : 'male',
-    // username : '',
-    // phone : '',
-    // email : '',
-    // password : '',
-    // confirm_password : '',
-    // description : '',
-    // is_admin : 0,
-    // status : 1
-    // | count | : 11
