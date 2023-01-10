@@ -35,7 +35,7 @@ const UserIndex = () => {
         setShowLoading(false);
     };
 
-    // for chenge page
+    // for chenge page handler
     const pageination = (e : any) => {
         const url = e.target.getAttribute('data-url');
         if(url != null){
@@ -43,6 +43,7 @@ const UserIndex = () => {
         }
     }
 
+    // for search handler
     const searchBoxHandler = () => {
         if(search.search.length > 0){
             fetchAllUserHandler(defaultPath , search)
@@ -74,7 +75,7 @@ const UserIndex = () => {
                 { meta.from && <Pagination meta={meta} pageination={pageination} />}
             </div>
             { showLoading && <LoadingModal showLoading={showLoading} />}
-            { showInserUserModal && <ModalForm subject="کاربر جدید" show={showInserUserModal} setShow={setInserUserModal} ><InsertUserForm /></ModalForm>}
+            { showInserUserModal && <ModalForm subject="کاربر جدید" show={showInserUserModal} setShow={setInserUserModal} ><InsertUserForm setInserUserModal={setInserUserModal} fetchAllUserHandler={fetchAllUserHandler} /></ModalForm>}
         </>
     )
 }

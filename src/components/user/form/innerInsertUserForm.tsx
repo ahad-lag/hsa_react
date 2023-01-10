@@ -9,7 +9,7 @@ const InnerInsertUserForm = (props: FormikProps<InsertUserFormValuesProps>) => {
 
     const genderOptions = [["male", "مرد"], ["famale", "زن"]];
     const typeOptions = [["0", "کاربر"], ["1", "مدیر"]];
-    const statusOptions = [["0", "فعال"], ["1", "غیرفعال"]];
+    const statusOptions = [["1", "فعال"], ["0", "غیرفعال"]];
     
     return (
         <Form className="space-y-3">
@@ -54,7 +54,7 @@ const InnerInsertUserForm = (props: FormikProps<InsertUserFormValuesProps>) => {
             </div>
 
             <div>
-                <FormButton label="تایید"/>
+                <FormButton label="ذخیره"/>
             </div>
 
         </Form>
