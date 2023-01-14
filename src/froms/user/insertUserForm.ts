@@ -31,7 +31,6 @@ const InsertUserForm = withFormik<InsertUserFormProps, InsertUserFormValuesProps
                 console.log('Error');
             }
         });
-        console.log("Connect To API" , res);
         props.props.fetchAllUserHandler('http://127.0.0.1:8000/api/user/collection');
         props.props.setInserUserModal(false);
     },

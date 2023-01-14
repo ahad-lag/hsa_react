@@ -18,12 +18,12 @@ const UserIndex = () => {
     const [meta, setMeta] = useState<any>({});
 
     useEffect(() => {
+        setShowLoading(true);
         fetchAllUserHandler(meta.path ? meta.path : defaultPath)
     },[]);
 
     // fetch data from api
     let fetchAllUserHandler = async (path : any , search = '') => {
-        setShowLoading(true);
         let data = new FormData();
         data.append('search', search);
         let apiResult = await axios.post(
@@ -35,8 +35,25 @@ const UserIndex = () => {
         setShowLoading(false);
     };
 
+    //delete user handler
+    const deleteUserHandler = async (id : any) => {
+        setShowLoading(true);
+        const res = await axios.post('http://127.0.0.1:8000/api/user/destroy',{'id' : id}).catch(function (error) {
+            if (error.response) {
+                console.log('Error');
+            }
+        });
+        if(res?.data?.status == 'success'){
+            console.log(res?.data?.Message);
+        }else{
+            console.log(res?.data?.Message);
+        }
+        fetchAllUserHandler(defaultPath,search);
+    }
+
     // for chenge page handler
     const pageination = (e : any) => {
+        setShowLoading(true);
         const url = e.target.getAttribute('data-url');
         if(url != null){
             fetchAllUserHandler(url,search);
@@ -45,6 +62,7 @@ const UserIndex = () => {
 
     // for search handler
     const searchBoxHandler = () => {
+        setShowLoading(true);
         if(search.search.length > 0){
             fetchAllUserHandler(defaultPath , search)
         }else{
@@ -69,7 +87,7 @@ const UserIndex = () => {
                 </div>
             </div>
     
-            <UserList userList={userList} />
+            <UserList userList={userList} deleteUserHandler={deleteUserHandler} />
 
             <div className="mt-6">
                 { meta.from && <Pagination meta={meta} pageination={pageination} />}
