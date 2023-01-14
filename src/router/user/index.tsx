@@ -13,7 +13,7 @@ const UserIndex = () => {
     const defaultPath = 'http://127.0.0.1:8000/api/user/collection';
     const [ showLoading , setShowLoading ] = useState(false);
     const [ showInserUserModal , setInserUserModal ] = useState(false);
-    const [userList, setUserList] = useState([]);
+    const [usersList, setUsersList] = useState([]);
     const [search, setSearch] = useState('');
     const [meta, setMeta] = useState<any>({});
 
@@ -30,7 +30,7 @@ const UserIndex = () => {
         path,
         data
         );
-        setUserList(apiResult?.data?.data);
+        setUsersList(apiResult?.data?.data);
         setMeta(apiResult?.data?.meta);
         setShowLoading(false);
     };
@@ -87,7 +87,7 @@ const UserIndex = () => {
                 </div>
             </div>
     
-            <UserList userList={userList} deleteUserHandler={deleteUserHandler} />
+            <UserList usersList={usersList} deleteUserHandler={deleteUserHandler} />
 
             <div className="mt-6">
                 { meta.from && <Pagination meta={meta} pageination={pageination} />}
