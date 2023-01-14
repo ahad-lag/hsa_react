@@ -6,14 +6,17 @@ import ModalForm from "../../components/modalForm";
 import UserList from "../../components/user/userList";
 import SearchForm from "../../froms/global/searchFrom";
 import InsertUserForm from "../../froms/user/insertUserForm";
+import UpdateUserForm from "../../froms/user/updateUserForm";
 
 
 const UserIndex = () => {
     
     const defaultPath = 'http://127.0.0.1:8000/api/user/collection';
-    const [ showLoading , setShowLoading ] = useState(false);
-    const [ showInserUserModal , setInserUserModal ] = useState(false);
+    const [showLoading, setShowLoading] = useState(false);
+    const [showInsertUserModal, setInsertUserModal] = useState(false);
+    const [showUpdateUserModal, setUpdateUserModal] = useState(false);
     const [usersList, setUsersList] = useState([]);
+    const [user, setUser] = useState<any>({});
     const [search, setSearch] = useState('');
     const [meta, setMeta] = useState<any>({});
 
@@ -22,7 +25,7 @@ const UserIndex = () => {
         fetchAllUserHandler(meta.path ? meta.path : defaultPath)
     },[]);
 
-    // fetch data from api
+    // fetch all users data from api
     let fetchAllUserHandler = async (path : any , search = '') => {
         let data = new FormData();
         data.append('search', search);
@@ -34,6 +37,25 @@ const UserIndex = () => {
         setMeta(apiResult?.data?.meta);
         setShowLoading(false);
     };
+
+    // fetch user data from api
+    let fetchUserHandler = async (id : any) => {
+        const res = await axios.post('http://127.0.0.1:8000/api/user',{'id' : id}).catch(function (error) {
+            if (error.response) {
+                console.log('Error');
+            }
+        });
+        return res;
+    };
+
+    //delete user handler
+    const updateUserHandler = async (id : any) => {
+        setShowLoading(true);
+        let res = await fetchUserHandler(id)
+        setUser(res?.data?.data);
+        setUpdateUserModal(true);
+        setShowLoading(false);
+    }
 
     //delete user handler
     const deleteUserHandler = async (id : any) => {
@@ -79,7 +101,7 @@ const UserIndex = () => {
                 <div className="flex-auto">
                     <button
                         type="button"
-                        onClick={() => setInserUserModal(true)}
+                        onClick={() => setInsertUserModal(true)}
                         className="inline-flex items-center justify-center rounded-md border border-transparent bg-teal-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-teal-700 focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2 sm:w-auto cursor-pointer sm:mr-2"
                     >
                         جدید
@@ -87,13 +109,14 @@ const UserIndex = () => {
                 </div>
             </div>
     
-            <UserList usersList={usersList} deleteUserHandler={deleteUserHandler} />
+            <UserList usersList={usersList} deleteUserHandler={deleteUserHandler} updateUserHandler={updateUserHandler} />
 
             <div className="mt-6">
                 { meta.from && <Pagination meta={meta} pageination={pageination} />}
             </div>
             { showLoading && <LoadingModal showLoading={showLoading} />}
-            { showInserUserModal && <ModalForm subject="کاربر جدید" show={showInserUserModal} setShow={setInserUserModal} ><InsertUserForm setInserUserModal={setInserUserModal} setShowLoading={setShowLoading} fetchAllUserHandler={fetchAllUserHandler} /></ModalForm>}
+            { showInsertUserModal && <ModalForm subject="کاربر جدید" show={showInsertUserModal} setShow={setInsertUserModal} ><InsertUserForm setInserUserModal={setInsertUserModal} setShowLoading={setShowLoading} fetchAllUserHandler={fetchAllUserHandler} /></ModalForm>}
+            { showUpdateUserModal && <ModalForm subject="ویرایش کاربر" show={showUpdateUserModal} setShow={setUpdateUserModal} ><UpdateUserForm user={user} setShowLoading={setShowLoading} fetchAllUserHandler={fetchAllUserHandler} setUpdateUserModal={setUpdateUserModal} /></ModalForm>}
         </>
     )
 }

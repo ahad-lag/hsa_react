@@ -2,10 +2,11 @@
 interface Props {
     index : number
     user : any,
-    deleteUserHandler : (id: any) => void
+    deleteUserHandler : (id: any) => void,
+    updateUserHandler : (id: any) => void
 }
 
-const UserListItem : React.FC<Props> = ({ index , user , deleteUserHandler }) => {
+const UserListItem : React.FC<Props> = ({ index , user , deleteUserHandler , updateUserHandler }) => {
     return(
         <tr key={1}>
             <td className="w-full max-w-0 py-4 pr-4 pl-3 text-sm font-medium text-gray-900 sm:w-auto sm:max-w-none sm:pr-6">
@@ -25,9 +26,9 @@ const UserListItem : React.FC<Props> = ({ index , user , deleteUserHandler }) =>
                 <a href="#" className="text-xs text-green-700 hover:text-white border border-green-700 hover:bg-green-800 rounded-lg px-3 py-1.5 text-center">
                     مشاهده<span className="sr-only">show</span>
                 </a>
-                <a href="#" className="text-xs text-indigo-700 hover:text-white border border-indigo-700 hover:bg-indigo-800 rounded-lg px-3 py-1.5 text-center mr-1">
+                <button onClick={() => updateUserHandler(user.id)} className="text-xs text-indigo-700 hover:text-white border border-indigo-700 hover:bg-indigo-800 rounded-lg px-3 py-1.5 text-center mr-1">
                     ویرایش<span className="sr-only">edit</span>
-                </a>
+                </button>
                 <button onClick={() => deleteUserHandler(user.id)} className="text-xs text-rose-700 hover:text-white border border-rose-700 hover:bg-rose-800 rounded-lg px-3 py-1.5 text-center mr-1">
                     حذف<span className="sr-only">delete</span>
                 </button>
