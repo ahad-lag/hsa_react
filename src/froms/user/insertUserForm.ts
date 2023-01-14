@@ -6,7 +6,8 @@ import { insertUserFormSchima } from "../../validate/user/insertFormValidate";
 
 interface InsertUserFormProps {
     name?: string,
-    setInserUserModal : React.Dispatch<React.SetStateAction<boolean>>
+    setInserUserModal : React.Dispatch<React.SetStateAction<boolean>>,
+    setShowLoading : React.Dispatch<React.SetStateAction<boolean>>,
     fetchAllUserHandler : (path: any, search?: string) => Promise<void>
 }
 
@@ -26,11 +27,13 @@ const InsertUserForm = withFormik<InsertUserFormProps, InsertUserFormValuesProps
         }
     },
     handleSubmit: async (values , props) => {
+        props.props.setShowLoading(true)
         let res = await axios.post('http://127.0.0.1:8000/api/user/insert',values).catch(function (error) {
             if (error.response) {
                 console.log('Error');
             }
         });
+        console.log("Connect To API" , res);
         props.props.fetchAllUserHandler('http://127.0.0.1:8000/api/user/collection');
         props.props.setInserUserModal(false);
     },

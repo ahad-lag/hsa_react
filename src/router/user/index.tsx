@@ -93,7 +93,7 @@ const UserIndex = () => {
                 { meta.from && <Pagination meta={meta} pageination={pageination} />}
             </div>
             { showLoading && <LoadingModal showLoading={showLoading} />}
-            { showInserUserModal && <ModalForm subject="کاربر جدید" show={showInserUserModal} setShow={setInserUserModal} ><InsertUserForm setInserUserModal={setInserUserModal} fetchAllUserHandler={fetchAllUserHandler} /></ModalForm>}
+            { showInserUserModal && <ModalForm subject="کاربر جدید" show={showInserUserModal} setShow={setInserUserModal} ><InsertUserForm setInserUserModal={setInserUserModal} setShowLoading={setShowLoading} fetchAllUserHandler={fetchAllUserHandler} /></ModalForm>}
         </>
     )
 }
