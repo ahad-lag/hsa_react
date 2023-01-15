@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import LoadingModal from "../../components/global/loading";
 import Pagination from "../../components/global/pagination";
 import ModalForm from "../../components/modalForm";
+import InnerShowUserForm from "../../components/user/form/innerShowUserForm";
 import UserList from "../../components/user/userList";
 import SearchForm from "../../froms/global/searchFrom";
 import InsertUserForm from "../../froms/user/insertUserForm";
@@ -13,6 +14,7 @@ const UserIndex = () => {
     
     const defaultPath = 'http://127.0.0.1:8000/api/user/collection';
     const [showLoading, setShowLoading] = useState(false);
+    const [showUserModal, setUserModal] = useState(false);
     const [showInsertUserModal, setInsertUserModal] = useState(false);
     const [showUpdateUserModal, setUpdateUserModal] = useState(false);
     const [usersList, setUsersList] = useState([]);
@@ -46,6 +48,16 @@ const UserIndex = () => {
             }
         });
         return res;
+    };
+
+    // show user haneler
+    let showUserHandler = async (id : any) => {
+        setShowLoading(true);
+        const user = await fetchUserHandler(id);
+        setUser(user?.data?.data);
+        setUserModal(true);
+        setShowLoading(false);
+        console.log(user);
     };
 
     //delete user handler
@@ -109,12 +121,13 @@ const UserIndex = () => {
                 </div>
             </div>
     
-            <UserList usersList={usersList} deleteUserHandler={deleteUserHandler} updateUserHandler={updateUserHandler} />
+            <UserList usersList={usersList} deleteUserHandler={deleteUserHandler} updateUserHandler={updateUserHandler} showUserHandler={showUserHandler} />
 
             <div className="mt-6">
                 { meta.from && <Pagination meta={meta} pageination={pageination} />}
             </div>
             { showLoading && <LoadingModal showLoading={showLoading} />}
+            { showUserModal && <ModalForm subject="مشاهده کاربر" show={showUserModal} setShow={setUserModal} ><InnerShowUserForm user={user} /></ModalForm>}
             { showInsertUserModal && <ModalForm subject="کاربر جدید" show={showInsertUserModal} setShow={setInsertUserModal} ><InsertUserForm setInserUserModal={setInsertUserModal} setShowLoading={setShowLoading} fetchAllUserHandler={fetchAllUserHandler} /></ModalForm>}
             { showUpdateUserModal && <ModalForm subject="ویرایش کاربر" show={showUpdateUserModal} setShow={setUpdateUserModal} ><UpdateUserForm user={user} setShowLoading={setShowLoading} fetchAllUserHandler={fetchAllUserHandler} setUpdateUserModal={setUpdateUserModal} /></ModalForm>}
         </>

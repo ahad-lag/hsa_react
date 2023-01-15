@@ -4,10 +4,11 @@ import UserListItem from "./userListItem";
 interface Props {
     usersList : any[],
     deleteUserHandler : (id: any) => void,
-    updateUserHandler : (id: any) => void
+    updateUserHandler : (id: any) => void,
+    showUserHandler: (id: any) => void
 }
 
-const UserList : React.FC<Props> = ({ usersList , deleteUserHandler , updateUserHandler }) => {
+const UserList : React.FC<Props> = ({ usersList , deleteUserHandler , updateUserHandler , showUserHandler }) => {
 
     return(
         <div className="-mx-4 mt-4 overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:-mx-6 md:mx-0 md:rounded-lg">
@@ -44,7 +45,7 @@ const UserList : React.FC<Props> = ({ usersList , deleteUserHandler , updateUser
 
                     {
                         usersList.length
-                            ? usersList.map((user,index) => <UserListItem key={user.id} index={index} user={user} deleteUserHandler={deleteUserHandler} updateUserHandler={updateUserHandler} />)
+                            ? usersList.map((user,index) => <UserListItem key={user.id} index={index} user={user} deleteUserHandler={deleteUserHandler} updateUserHandler={updateUserHandler} showUserHandler={showUserHandler} />)
                             : <EmptyUserListItem />
                     }
 

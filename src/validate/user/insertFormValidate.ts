@@ -30,9 +30,9 @@ export let insertUserFormSchima = yup.object().shape({
     gender:yup.string(),
     username: yup.string().required().min(4),
     phone: yup.string().required().min(8).matches(phoneRegExp, 'فرمت شماره همراه صحیح نیست'),
-    email: yup.string().email(),
+    email: yup.string().email().nullable(),
     password: yup.string().required().min(8),
-    description: yup.string(),
+    description: yup.string().nullable(),
     is_admin: yup.string(),
     status:yup.string(),
 });
