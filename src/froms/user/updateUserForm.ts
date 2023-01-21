@@ -2,7 +2,7 @@ import axios from "axios";
 import { withFormik } from "formik";
 import InnerUpdateUserForm from "../../components/user/form/innerUpdateUserForm";
 import { InsertUserFormValuesProps } from "../../contracts/userContractInterface";
-import { insertUserFormSchima } from "../../validate/user/insertFormValidate";
+import { updateUserFormSchima } from "../../validate/user/updateFormValidate";
 
 interface UpdateUserFormProps {
     user : any,
@@ -38,7 +38,7 @@ const UpdateUserForm = withFormik<UpdateUserFormProps, InsertUserFormValuesProps
         props.props.fetchAllUserHandler('http://127.0.0.1:8000/api/user/collection');
         props.props.setUpdateUserModal(false);
     },
-    validationSchema : insertUserFormSchima
+    validationSchema : updateUserFormSchima
 })(InnerUpdateUserForm)
 
 export default UpdateUserForm;
