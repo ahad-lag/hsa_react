@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import LoadingModal from "../../components/global/loading";
 import Pagination from "../../components/global/pagination";
+import MasterPage from "../../components/masterPage";
 import ModalForm from "../../components/modalForm";
 import InnerShowUserForm from "../../components/user/form/innerShowUserForm";
 import UserList from "../../components/user/userList";
@@ -105,7 +106,7 @@ const UserIndex = () => {
     }
 
     return (
-        <>
+        <MasterPage>
             <div className='sm:flex sm:items-center -mx-4 shadow ring-1 ring-black bg-white ring-opacity-5 sm:-mx-6 md:mx-0 md:rounded-lg p-4'>
                 <div className="w-full">
                     <SearchForm setSearch={setSearch} searchBoxHandler={searchBoxHandler} />
@@ -130,7 +131,7 @@ const UserIndex = () => {
             { showUserModal && <ModalForm subject="مشاهده کاربر" show={showUserModal} setShow={setUserModal} ><InnerShowUserForm user={user} /></ModalForm>}
             { showInsertUserModal && <ModalForm subject="کاربر جدید" show={showInsertUserModal} setShow={setInsertUserModal} ><InsertUserForm setInserUserModal={setInsertUserModal} setShowLoading={setShowLoading} fetchAllUserHandler={fetchAllUserHandler} /></ModalForm>}
             { showUpdateUserModal && <ModalForm subject="ویرایش کاربر" show={showUpdateUserModal} setShow={setUpdateUserModal} ><UpdateUserForm user={user} setShowLoading={setShowLoading} fetchAllUserHandler={fetchAllUserHandler} setUpdateUserModal={setUpdateUserModal} /></ModalForm>}
-        </>
+        </MasterPage>
     )
 }
 

@@ -25,17 +25,6 @@ string : {
 
 const phoneRegExp = /^(0|0098|\+98)9(0[1-5]|[1 3]\d|2[0-2]|98)\d{7}$/
 
-let username : any = null;
-const checkUsername = async (value : any) {
-    username == null ? username = value :null
-    const res = await axios.post('http://127.0.0.1:8000/api/user/username/available',{'username' : username}).catch(function (error) {
-        if (error.response) {
-            console.log('Error username');
-        }
-    });
-    return !(res?.data)
-}
-
 let phone : any = null;
 
 export let updateUserFormSchima = yup.object().shape({

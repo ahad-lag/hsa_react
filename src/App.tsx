@@ -1,16 +1,17 @@
 import { Route, Routes } from "react-router-dom";
-import MasterPage from "./components/masterPage";
+import Login from "./router/authenticate/login";
 import NotFound from "./router/notFound";
 import UserIndex from "./router/user";
 
 function App() {
   return (
-    <MasterPage>
+    <>
       <Routes>
         <Route path="/user" element={<UserIndex />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
-    </MasterPage>
+    </>
   );
 }
 
