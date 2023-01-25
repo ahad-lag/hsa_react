@@ -1,15 +1,16 @@
-/* This example requires Tailwind CSS v2.0+ */
 import React from 'react';
+import useAuth from '../../hooks/useAuth';
+
 import { useLocation , Link } from 'react-router-dom';
 import { Disclosure } from '@headlessui/react';
-import { CalendarIcon, ChartBarIcon, FolderIcon, HomeIcon, InboxIcon, UsersIcon } from '@heroicons/react/outline';
+import { ChartBarIcon, HomeIcon, InboxIcon, UsersIcon } from '@heroicons/react/outline';
 
 interface Props {
   sideBar : boolean,
   setSideBar : React.Dispatch<React.SetStateAction<boolean>>
 }
 
-const navigation = [
+const nav = [
   { 
     name: 'داشبورد', 
     icon: HomeIcon, 
@@ -23,26 +24,32 @@ const navigation = [
       { name: 'مدیریت', href: '/supply' }
     ],
   },
-  // {
-  //   name: 'قراردادها',
-  //   icon: FolderIcon,
-  //   enName: true,
-  //   children: [
-  //     { name: 'مدیریت', href: '#', enName: 'all' },
-  //     { name: 'درج', href: '#', enName: true },
-  //     { name: 'گزارش', href: '#', enName: false }
-  //   ],
-  // },
-  // {
-  //   name: 'پیش فاکتور',
-  //   icon: CalendarIcon,
-  //   enName: false,
-  //   children: [
-  //     { name: 'مدیریت', href: '#', enName: 'all' },
-  //     { name: 'درج', href: '#', enName: false },
-  //     { name: 'گزارش', href: '#', enName: false }
-  //   ],
-  // },
+  {
+    name: 'گزارش',
+    icon: ChartBarIcon,
+    href: '/report',
+    children: [
+      { name: 'مدیریت', href: '/report' },
+      { name: 'درج', href: '/report/insert' },
+      { name: 'گزارش', href: '/report/report' }
+    ],
+  },
+]
+
+const AdminNav = [
+  { 
+    name: 'داشبورد', 
+    icon: HomeIcon, 
+    href: '/dashboard'
+  },
+  {
+    name: 'تامین کنندگان',
+    icon: UsersIcon,
+    href: '/supply',
+    children: [
+      { name: 'مدیریت', href: '/supply' }
+    ],
+  },
   {
     name: 'کاربران',
     icon: InboxIcon,
@@ -71,8 +78,10 @@ function classNames(...classes : any) {
 
 const SideBar : React.FC<Props> = ({sideBar,setSideBar}) => {
 
+  const { userInfo } = useAuth();
   const location = useLocation();
   const pathName = location.pathname;
+  let navigation = userInfo?.is_admin == 1 ? AdminNav : nav; 
 
   return (
     <div className={`${sideBar ? '' : 'hidden'} fixed w-64 lg:flex h-full`}>
@@ -91,73 +100,75 @@ const SideBar : React.FC<Props> = ({sideBar,setSideBar}) => {
         </div>
         <div className="mt-5 flex-grow flex flex-col">
           <nav className="flex-1 px-2 space-y-1" aria-label="Sidebar">
-            {navigation.map((item) =>
-              !item.children ? (
-                <div key={item.name} className='mt-3'>
-                  <Link
-                    to={item.href}
-                    className={classNames(
-                      pathName == item.href
-                        ? 'bg-gray-200 text-gray-900 ring-1 ring-gray-500'
-                        : 'hover:bg-gray-200 text-gray-600 hover:text-gray-900',
-                      'group w-full flex items-center pl-2 py-2 text-sm font-medium rounded-md'
-                    )}
-                  >
-                    <item.icon
+            {
+              navigation.map((item : any) =>
+                !item.children ? (
+                  <div key={item.name} className='mt-3'>
+                    <Link
+                      to={item.href}
                       className={classNames(
-                        pathName == item.href ? 'text-gray-500' : 'text-gray-400 group-hover:text-gray-500',
-                        'mr-3 flex-shrink-0 h-6 w-6'
+                        pathName == item.href
+                          ? 'bg-gray-200 text-gray-900 ring-1 ring-gray-500'
+                          : 'hover:bg-gray-200 text-gray-600 hover:text-gray-900',
+                        'group w-full flex items-center pl-2 py-2 text-sm font-medium rounded-md'
                       )}
-                      aria-hidden="true"
-                    />
-                    <span className='mr-3'>{item.name}</span>
-                  </Link>
-                </div>
-              ) : (
-                <Disclosure as="div" key={item.name} className="space-y-1">
-                  {({ open }) => (
-                    <>
-                      <Disclosure.Button
+                    >
+                      <item.icon
                         className={classNames(
-                          pathName.search(item.href) !== -1
-                            ? 'bg-gray-200 text-gray-900 ring-1 ring-gray-500'
-                            : 'hover:bg-gray-200 text-gray-600 hover:text-gray-900',
-                          'group w-full flex items-center pl-2 py-2 text-right text-sm font-medium rounded-md focus:outline-none'
+                          pathName == item.href ? 'text-gray-500' : 'text-gray-400 group-hover:text-gray-500',
+                          'mr-3 flex-shrink-0 h-6 w-6'
                         )}
-                      >
-                        <item.icon
-                          className="mr-3 flex-shrink-0 h-6 w-6 text-gray-400 group-hover:text-gray-500"
-                          aria-hidden="true"
-                        />
-                        <span className="flex-1 mr-2">{item.name}</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" className={classNames(
-                            pathName.search(item.href) !== -1 ? 'text-gray-400 -rotate-90 mr-3 flex-shrink-0 h-5 w-5 transform group-hover:text-gray-400 transition-colors ease-in-out duration-150'
-                            : open ? 'text-gray-400 -rotate-90' : 'text-gray-300',
-                            'mr-3 flex-shrink-0 h-5 w-5 transform group-hover:text-gray-400 transition-colors ease-in-out duration-150'
-                          )} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-                        </svg>
-                      </Disclosure.Button>
-                      <Disclosure.Panel className="space-y-1" static={pathName.search(item.href) !== -1}>
-                        {item.children.map((subItem) => (
-                          <Disclosure.Button
-                            key={subItem.name}
-                            as={Link}
-                            to={subItem.href}
-                            className={classNames(
-                              (pathName.search(subItem.href) !== -1 && pathName === subItem.href) ? 'text-gray-800 bg-gray-200' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200',
-                              'group w-full flex items-center pr-11 pl-2 py-2 text-sm font-medium rounded-md'
-                            )}
-                          >
-                            {subItem.name}
-                          </Disclosure.Button>
-                        ))}
-                      </Disclosure.Panel>
-                    </>
-                  )}
-                </Disclosure>
+                        aria-hidden="true"
+                      />
+                      <span className='mr-3'>{item.name}</span>
+                    </Link>
+                  </div>
+                ) : (
+                  <Disclosure as="div" key={item.name} className="space-y-1">
+                    {({ open }) => (
+                      <>
+                        <Disclosure.Button
+                          className={classNames(
+                            pathName.search(item.href) !== -1
+                              ? 'bg-gray-200 text-gray-900 ring-1 ring-gray-500'
+                              : 'hover:bg-gray-200 text-gray-600 hover:text-gray-900',
+                            'group w-full flex items-center pl-2 py-2 text-right text-sm font-medium rounded-md focus:outline-none'
+                          )}
+                        >
+                          <item.icon
+                            className="mr-3 flex-shrink-0 h-6 w-6 text-gray-400 group-hover:text-gray-500"
+                            aria-hidden="true"
+                          />
+                          <span className="flex-1 mr-2">{item.name}</span>
+                          <svg xmlns="http://www.w3.org/2000/svg" className={classNames(
+                              pathName.search(item.href) !== -1 ? 'text-gray-400 -rotate-90 mr-3 flex-shrink-0 h-5 w-5 transform group-hover:text-gray-400 transition-colors ease-in-out duration-150'
+                              : open ? 'text-gray-400 -rotate-90' : 'text-gray-300',
+                              'mr-3 flex-shrink-0 h-5 w-5 transform group-hover:text-gray-400 transition-colors ease-in-out duration-150'
+                            )} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                          </svg>
+                        </Disclosure.Button>
+                        <Disclosure.Panel className="space-y-1" static={pathName.search(item.href) !== -1}>
+                          {item.children.map((subItem : any) => (
+                            <Disclosure.Button
+                              key={subItem.name}
+                              as={Link}
+                              to={subItem.href}
+                              className={classNames(
+                                (pathName.search(subItem.href) !== -1 && pathName === subItem.href) ? 'text-gray-800 bg-gray-200' : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200',
+                                'group w-full flex items-center pr-11 pl-2 py-2 text-sm font-medium rounded-md'
+                              )}
+                            >
+                              {subItem.name}
+                            </Disclosure.Button>
+                          ))}
+                        </Disclosure.Panel>
+                      </>
+                    )}
+                  </Disclosure>
+                )
               )
-            )}
+            }
           </nav>
         </div>
       </div>

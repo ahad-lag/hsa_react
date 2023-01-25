@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import AlertToast from "../../components/global/alertToast";
 import LoadingModal from "../../components/global/loading";
 import Pagination from "../../components/global/pagination";
 import MasterPage from "../../components/masterPage";
@@ -57,7 +58,7 @@ const UserIndex : any = () => {
             }
         }).catch(function (error) {
             if (error.response) {
-                console.log('Error');
+                AlertToast('خطا در دریافت اطلاعلات','error');
             }
         });
         return res;
@@ -70,7 +71,6 @@ const UserIndex : any = () => {
         setUser(user?.data?.data);
         setUserModal(true);
         setShowLoading(false);
-        console.log(user);
     };
 
     //delete user handler
@@ -92,13 +92,13 @@ const UserIndex : any = () => {
             }
         }).catch(function (error) {
             if (error.response) {
-                console.log('Error');
+                AlertToast('خطا در حذف','error');
             }
         });
         if(res?.data?.status == 'success'){
-            console.log(res?.data?.Message);
+            AlertToast(res?.data?.Message,'success');
         }else{
-            console.log(res?.data?.Message);
+            AlertToast(res?.data?.Message,'error');
         }
         fetchAllUserHandler(defaultPath,search);
     }

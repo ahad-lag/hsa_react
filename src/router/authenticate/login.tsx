@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 
 import LoginForm from "../../froms/auth/loginForm";
 import useAuth from "../../hooks/useAuth";
+import AlertToast from "../../components/global/alertToast";
+
 
 
 
@@ -12,8 +14,6 @@ const Login : any = () => {
     const cookies = new Cookies();
     let navigate = useNavigate();
     let { token } = useAuth();
-    console.log('token >>>>>>>>>>>>>>>>>>>>>>>>' , token);
-    
     if(token) return navigate('/')
    
     const loginHandler = async (value : object) => {
@@ -24,7 +24,7 @@ const Login : any = () => {
             cookies.set('hsa_token', res?.data?.data?.token , { path: '/' ,  maxAge: 10 * 60 * 60 });
             navigate("/")
         }else{
-            console.log('Error Massage : ',res?.data?.Message)
+            AlertToast(res?.data?.Message,'error');
         }
 
     }

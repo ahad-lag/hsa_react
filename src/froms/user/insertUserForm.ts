@@ -1,5 +1,6 @@
 import axios from "axios";
 import { withFormik } from "formik";
+import AlertToast from "../../components/global/alertToast";
 import InnerInsertUserForm from "../../components/user/form/innerInsertUserForm";
 import { InsertUserFormValuesProps } from "../../contracts/userContractInterface";
 import { insertUserFormSchima } from "../../validate/user/insertFormValidate";
@@ -36,10 +37,10 @@ const InsertUserForm = withFormik<InsertUserFormProps, InsertUserFormValuesProps
             }
         }).catch(function (error) {
             if (error.response) {
-                console.log('Error');
+                AlertToast('خطا در درج','error');
             }
         });
-        console.log("Connect To API" , res);
+        AlertToast(res?.data?.Message,'success');
         props.props.fetchAllUserHandler('http://127.0.0.1:8000/api/user/collection');
         props.props.setInserUserModal(false);
     },

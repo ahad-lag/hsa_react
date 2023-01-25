@@ -36,7 +36,6 @@ const MasterPage : React.FC<Props> = ({ children }) => {
 
       </div>
       {/* end main */}
-
     </>
   );
 }
