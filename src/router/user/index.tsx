@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import LoadingModal from "../../components/global/loading";
 import Pagination from "../../components/global/pagination";
 import MasterPage from "../../components/masterPage";
@@ -9,10 +10,11 @@ import UserList from "../../components/user/userList";
 import SearchForm from "../../froms/global/searchFrom";
 import InsertUserForm from "../../froms/user/insertUserForm";
 import UpdateUserForm from "../../froms/user/updateUserForm";
+import useAuth from "../../hooks/useAuth";
 
 
-const UserIndex = () => {
-    
+const UserIndex : any = () => {
+
     const defaultPath = 'http://127.0.0.1:8000/api/user/collection';
     const [showLoading, setShowLoading] = useState(false);
     const [showUserModal, setUserModal] = useState(false);
@@ -23,7 +25,12 @@ const UserIndex = () => {
     const [search, setSearch] = useState('');
     const [meta, setMeta] = useState<any>({});
 
+    //for redirect
+    let navigate = useNavigate();
+    let { token , error } = useAuth();
+
     useEffect(() => {
+        if(!token || error) return navigate('/login')
         setShowLoading(true);
         fetchAllUserHandler(meta.path ? meta.path : defaultPath)
     },[]);
@@ -43,7 +50,12 @@ const UserIndex = () => {
 
     // fetch user data from api
     let fetchUserHandler = async (id : any) => {
-        const res = await axios.post('http://127.0.0.1:8000/api/user',{'id' : id}).catch(function (error) {
+        const res = await axios.post('http://127.0.0.1:8000/api/user',{'id' : id},{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        }).catch(function (error) {
             if (error.response) {
                 console.log('Error');
             }
@@ -73,7 +85,12 @@ const UserIndex = () => {
     //delete user handler
     const deleteUserHandler = async (id : any) => {
         setShowLoading(true);
-        const res = await axios.post('http://127.0.0.1:8000/api/user/destroy',{'id' : id}).catch(function (error) {
+        const res = await axios.post('http://127.0.0.1:8000/api/user/destroy',{'id' : id},{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        }).catch(function (error) {
             if (error.response) {
                 console.log('Error');
             }
@@ -129,8 +146,8 @@ const UserIndex = () => {
             </div>
             { showLoading && <LoadingModal showLoading={showLoading} />}
             { showUserModal && <ModalForm subject="مشاهده کاربر" show={showUserModal} setShow={setUserModal} ><InnerShowUserForm user={user} /></ModalForm>}
-            { showInsertUserModal && <ModalForm subject="کاربر جدید" show={showInsertUserModal} setShow={setInsertUserModal} ><InsertUserForm setInserUserModal={setInsertUserModal} setShowLoading={setShowLoading} fetchAllUserHandler={fetchAllUserHandler} /></ModalForm>}
-            { showUpdateUserModal && <ModalForm subject="ویرایش کاربر" show={showUpdateUserModal} setShow={setUpdateUserModal} ><UpdateUserForm user={user} setShowLoading={setShowLoading} fetchAllUserHandler={fetchAllUserHandler} setUpdateUserModal={setUpdateUserModal} /></ModalForm>}
+            { showInsertUserModal && <ModalForm subject="کاربر جدید" show={showInsertUserModal} setShow={setInsertUserModal} ><InsertUserForm setInserUserModal={setInsertUserModal} setShowLoading={setShowLoading} fetchAllUserHandler={fetchAllUserHandler} token={token}/></ModalForm>}
+            { showUpdateUserModal && <ModalForm subject="ویرایش کاربر" show={showUpdateUserModal} setShow={setUpdateUserModal} ><UpdateUserForm user={user} setShowLoading={setShowLoading} fetchAllUserHandler={fetchAllUserHandler} setUpdateUserModal={setUpdateUserModal} token={token}/></ModalForm>}
         </MasterPage>
     )
 }

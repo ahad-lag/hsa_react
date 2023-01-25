@@ -1,5 +1,6 @@
 import axios from 'axios';
 import * as yup from 'yup';
+import useAuth from '../../hooks/useAuth';
 
 let toPersian : any = { 
     first_name : 'نام',
@@ -29,28 +30,8 @@ export let insertUserFormSchima = yup.object().shape({
     first_name: yup.string().required().min(2),
     last_name: yup.string().required().min(2),
     gender:yup.string(),
-    username: yup.string().required().min(4)
-        .test('Unique username', 'نام کاربری قبلا استفاده شده', // <- key, message
-            async (value) => {
-                const res = await axios.post('http://127.0.0.1:8000/api/user/username/available',{'username' : value}).catch(function (error) {
-                    if (error.response) {
-                        console.log('Error username');
-                    }
-                });
-                return !(res?.data)
-            }
-        ),
-    phone: yup.string().required().min(8).matches(phoneRegExp, 'فرمت شماره همراه صحیح نیست')
-        .test('Unique phone', 'شماره همراه قبلا استفاده شده', // <- key, message
-            async (value) => {
-                const res = await axios.post('http://127.0.0.1:8000/api/user/phone/available',{'phone' : value}).catch(function (error) {
-                    if (error.response) {
-                        console.log('Error phone');
-                    }
-                });
-                return !(res?.data)
-            }
-        ),
+    username: yup.string().required().min(4),
+    phone: yup.string().required().min(8).matches(phoneRegExp, 'فرمت شماره همراه صحیح نیست'),
     email: yup.string().email().nullable(),
     password: yup.string().required().min(8),
     description: yup.string().nullable(),

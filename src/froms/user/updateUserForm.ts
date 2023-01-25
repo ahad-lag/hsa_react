@@ -9,6 +9,7 @@ interface UpdateUserFormProps {
     setShowLoading : React.Dispatch<React.SetStateAction<boolean>>,
     fetchAllUserHandler : (path: any, search?: string) => Promise<void>,
     setUpdateUserModal : React.Dispatch<React.SetStateAction<boolean>>,
+    token : any
 }
 
 const UpdateUserForm = withFormik<UpdateUserFormProps, InsertUserFormValuesProps>({
@@ -29,7 +30,12 @@ const UpdateUserForm = withFormik<UpdateUserFormProps, InsertUserFormValuesProps
     },
     handleSubmit: async (values , props) => {
         props.props.setShowLoading(true)
-        let res = await axios.post('http://127.0.0.1:8000/api/user/edit',values).catch(function (error) {
+        let res = await axios.post('http://127.0.0.1:8000/api/user/edit',values,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${props.props.token}`
+            }
+        }).catch(function (error) {
             if (error.response) {
                 console.log('Error');
             }

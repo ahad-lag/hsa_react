@@ -8,7 +8,8 @@ interface InsertUserFormProps {
     name?: string,
     setInserUserModal : React.Dispatch<React.SetStateAction<boolean>>,
     setShowLoading : React.Dispatch<React.SetStateAction<boolean>>,
-    fetchAllUserHandler : (path: any, search?: string) => Promise<void>
+    fetchAllUserHandler : (path: any, search?: string) => Promise<void>,
+    token : any
 }
 
 const InsertUserForm = withFormik<InsertUserFormProps, InsertUserFormValuesProps>({
@@ -28,7 +29,12 @@ const InsertUserForm = withFormik<InsertUserFormProps, InsertUserFormValuesProps
     },
     handleSubmit: async (values , props) => {
         props.props.setShowLoading(true)
-        let res = await axios.post('http://127.0.0.1:8000/api/user/insert',values).catch(function (error) {
+        let res = await axios.post('http://127.0.0.1:8000/api/user/insert',values,{
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${props.props.token}`
+            }
+        }).catch(function (error) {
             if (error.response) {
                 console.log('Error');
             }

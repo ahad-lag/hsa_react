@@ -1,6 +1,34 @@
-import LoginForm from "../../froms/auth/loginForm";
+import axios from "axios";
+import Cookies from 'universal-cookie';
+import { useNavigate } from "react-router-dom";
 
-const Login = () => {
+import LoginForm from "../../froms/auth/loginForm";
+import useAuth from "../../hooks/useAuth";
+
+
+
+const Login : any = () => {
+
+    const cookies = new Cookies();
+    let navigate = useNavigate();
+    let { token } = useAuth();
+    console.log('token >>>>>>>>>>>>>>>>>>>>>>>>' , token);
+    
+    if(token) return navigate('/')
+   
+    const loginHandler = async (value : object) => {
+
+        let res = await axios.post('http://127.0.0.1:8000/api/login',value);
+
+        if(res.data.status === "success"){
+            cookies.set('hsa_token', res?.data?.data?.token , { path: '/' ,  maxAge: 10 * 60 * 60 });
+            navigate("/")
+        }else{
+            console.log('Error Massage : ',res?.data?.Message)
+        }
+
+    }
+
     return(
         <>
             <div className="min-h-full flex flex-col justify-center py-12 sm:px-6 lg:px-8">
@@ -10,7 +38,7 @@ const Login = () => {
 
                 <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
                 <div className="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
-                    <LoginForm />
+                    <LoginForm loginHandler={loginHandler}/>
                 </div>
                 </div>
             </div>
