@@ -3,7 +3,6 @@ import Cookies from 'universal-cookie';
 import { useNavigate } from "react-router-dom";
 
 import LoginForm from "../../froms/auth/loginForm";
-import useAuth from "../../hooks/useAuth";
 import AlertToast from "../../components/global/alertToast";
 
 
@@ -13,7 +12,7 @@ const Login : any = () => {
 
     const cookies = new Cookies();
     let navigate = useNavigate();
-    let { token } = useAuth();
+    let token = cookies.get('hsa_token');
     if(token) return navigate('/')
    
     const loginHandler = async (value : object) => {
