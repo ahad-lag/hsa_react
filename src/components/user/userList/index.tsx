@@ -1,3 +1,6 @@
+import { useState } from "react";
+import DeleteModal from "../../modal/deleteModal";
+
 import EmptyUserListItem from "./emptyUserListItem";
 import UserListItem from "./userListItem";
 
@@ -9,6 +12,16 @@ interface Props {
 }
 
 const UserList : React.FC<Props> = ({ usersList , deleteUserHandler , updateUserHandler , showUserHandler }) => {
+
+    const [showDeleteModal, setDeleteModal] = useState(false);
+
+    //select user for delete
+    const [selectUser, setSelectUser] = useState<any>({});
+
+    const deleteModal = (user: any) => {
+        setSelectUser(user);
+        setDeleteModal(true);
+    }
 
     return(
         <div className="-mx-4 mt-4 overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:-mx-6 md:mx-0 md:rounded-lg">
@@ -45,12 +58,14 @@ const UserList : React.FC<Props> = ({ usersList , deleteUserHandler , updateUser
 
                     {
                         usersList.length
-                            ? usersList.map((user,index) => <UserListItem key={user.id} index={index} user={user} deleteUserHandler={deleteUserHandler} updateUserHandler={updateUserHandler} showUserHandler={showUserHandler} />)
+                            ? usersList.map((user,index) => <UserListItem key={user.id} index={index} user={user} deleteModal={deleteModal} updateUserHandler={updateUserHandler} showUserHandler={showUserHandler} />)
                             : <EmptyUserListItem />
                     }
-
                 </tbody>
             </table>
+
+            { showDeleteModal && <DeleteModal msg={`${selectUser?.name} حذف شود؟!؟؟`} userId={selectUser?.id} showModal={showDeleteModal} setShowModal={setDeleteModal} deleteHandler={deleteUserHandler} /> }
+
         </div>
     );
 }

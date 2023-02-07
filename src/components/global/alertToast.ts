@@ -5,6 +5,7 @@ const AlertToast= (msg : string, msgType : 'info'|'success'|'warning'|'error'|'d
         msg, {
             position: "bottom-right",
             type: msgType,
+            rtl:true,
             autoClose: 5000,
             hideProgressBar: false,
             closeOnClick: true,

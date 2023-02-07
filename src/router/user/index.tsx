@@ -5,7 +5,7 @@ import AlertToast from "../../components/global/alertToast";
 import LoadingModal from "../../components/global/loading";
 import Pagination from "../../components/global/pagination";
 import MasterPage from "../../components/masterPage";
-import ModalForm from "../../components/modalForm";
+import ModalForm from "../../components/modal/modalForm";
 import InnerShowUserForm from "../../components/user/form/innerShowUserForm";
 import UserList from "../../components/user/userList";
 import SearchForm from "../../froms/global/searchFrom";
@@ -73,7 +73,8 @@ const UserIndex : any = () => {
         setShowLoading(false);
     };
 
-    //delete user handler
+
+    //update user handler
     const updateUserHandler = async (id : any) => {
         setShowLoading(true);
         let res = await fetchUserHandler(id)

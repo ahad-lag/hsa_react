@@ -14,7 +14,7 @@ const getUser = async (token : string) => {
         }
     }).catch(function (error) {
         if (error.response) {
-          AlertToast('اهراز هویت شما با مشکل مواجه شد','error');
+          AlertToast('لطفا وارد شود','error');
           cookies.remove('hsa_token');
         }
       });
