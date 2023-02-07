@@ -42,7 +42,13 @@ const UserIndex : any = () => {
         data.append('search', search);
         let apiResult = await axios.post(
         path,
-        data
+        data,
+        {
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        }
         );
         setUsersList(apiResult?.data?.data);
         setMeta(apiResult?.data?.meta);
