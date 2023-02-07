@@ -27,7 +27,7 @@ const useAuth = () => {
 
     const { data , error , isLoading } = useSWR(
         'user_info',
-        () => getUser(token)
+        () => getUser(cookies.get('hsa_token'))
     );
 
     return {

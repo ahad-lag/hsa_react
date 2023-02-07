@@ -99,7 +99,7 @@ const UserIndex : any = () => {
             }
         }).catch(function (error) {
             if (error.response) {
-                AlertToast('خطا در حذف','error');
+                AlertToast('خطا در حذف کردن','error');
             }
         });
         if(res?.data?.status == 'success'){

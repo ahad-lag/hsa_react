@@ -3,6 +3,7 @@ import axios from 'axios';
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import useAuth from '../../hooks/useAuth';
+import AlertToast from '../global/alertToast';
 
 interface Props {
   setSideBar : React.Dispatch<React.SetStateAction<boolean>>
@@ -16,13 +17,14 @@ const NavBar : React.FC<Props> = ({ setSideBar }) => {
   
   const logout = () => {
     let res = axios.post('http://127.0.0.1:8000/api/logout',{},{
-      headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`
-      }
-  });
-  cookies.remove('hsa_token');
-  navigate("/login");
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+    });
+    cookies.remove('hsa_token');
+    AlertToast('به امید دیدار','info');
+    navigate("/login");
   }
 
   return(

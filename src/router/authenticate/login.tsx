@@ -21,6 +21,7 @@ const Login : any = () => {
 
         if(res.data.status === "success"){
             cookies.set('hsa_token', res?.data?.data?.token , { path: '/' ,  maxAge: 10 * 60 * 60 });
+            AlertToast('خوش امدی ;-)','info');
             navigate("/")
         }else{
             AlertToast(res?.data?.Message,'error');
