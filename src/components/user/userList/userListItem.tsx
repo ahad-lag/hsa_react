@@ -1,3 +1,5 @@
+import useAuth from "../../../hooks/useAuth";
+import AlertToast from "../../global/alertToast";
 
 interface Props {
     index : number,
@@ -8,6 +10,8 @@ interface Props {
 }
 
 const UserListItem : React.FC<Props> = ({ index , user , deleteModal , updateUserHandler , showUserHandler}) => {
+
+    let { userInfo } = useAuth();
 
     return(
         <tr key={user.id}>
@@ -28,10 +32,10 @@ const UserListItem : React.FC<Props> = ({ index , user , deleteModal , updateUse
                 <button onClick={() => showUserHandler(user.id)} className="text-xs text-green-700 hover:text-white border border-green-700 hover:bg-green-800 rounded-lg px-3 py-1.5 text-center">
                     مشاهده<span className="sr-only">show</span>
                 </button>
-                <button onClick={() => updateUserHandler(user.id)} className="text-xs text-indigo-700 hover:text-white border border-indigo-700 hover:bg-indigo-800 rounded-lg px-3 py-1.5 text-center mr-1">
+                <button onClick={() => {userInfo.id == user.id ? AlertToast('خود را نمیتوانید ویرایش کنید','warning') : updateUserHandler(user.id)}} className="text-xs text-indigo-700 hover:text-white border border-indigo-700 hover:bg-indigo-800 rounded-lg px-3 py-1.5 text-center mr-1">
                     ویرایش<span className="sr-only">edit</span>
                 </button>
-                <button onClick={() => deleteModal(user)} className="text-xs text-rose-700 hover:text-white border border-rose-700 hover:bg-rose-800 rounded-lg px-3 py-1.5 text-center mr-1">
+                <button onClick={() => {userInfo.id == user.id ? AlertToast('خود را نمیتوانید حذف کنید','warning') : deleteModal(user)}} className="text-xs text-rose-700 hover:text-white border border-rose-700 hover:bg-rose-800 rounded-lg px-3 py-1.5 text-center mr-1">
                     حذف<span className="sr-only">delete</span>
                 </button>
             </td>
