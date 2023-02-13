@@ -36,7 +36,7 @@ const Modal : React.FC<Props> = ({ show , children }) => {
                         leaveFrom="opacity-100 translate-y-0 sm:scale-100"
                         leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                     >
-                        <div className="relative inline-block align-bottom bg-white rounded-lg text-right overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle max-w-2xl">
+                        <div className="relative inline-block align-bottom bg-white rounded-lg text-right overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle max-w-7xl">
                             <div className="flex bg-white justify-center">
                                 { children }
                             </div>
